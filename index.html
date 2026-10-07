@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>応募文アドバイザー</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap">
+<style>
+/* layout: 1カラムの「応募用紙」。薄ピンクの罫線紙に、サーモンピンクの見出しと朱色の印 */
+:root{
+  --paper:#fffefa; --sheet:#ffffff; --rule:#e3e6ee; --ink:#3d2b27; --muted:#7a625d;
+  --blue:#e8695b; --blue-soft:#ffe6e1; --foot:#fde3de; --marker:#fff09a; --seal:#c8372d; --ok:#2f7a4f;
+  --display:"Zen Maru Gothic","Hiragino Maru Gothic ProN","Meiryo",sans-serif;
+  --body:"Zen Kaku Gothic New","Hiragino Sans","Meiryo",sans-serif;
+  --mono:ui-monospace,"SFMono-Regular",Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#1f1715; --sheet:#2a201d; --rule:#3e2f2b; --ink:#f5e9e6; --muted:#c4aea9;
+  --blue:#ff9a8b; --blue-soft:#3a2622; --foot:#33231f; --marker:rgba(255,226,90,.28); --seal:#ef7466; --ok:#6cc495; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#1f1715; --sheet:#2a201d; --rule:#3e2f2b; --ink:#f5e9e6; --muted:#c4aea9;
+  --blue:#ff9a8b; --blue-soft:#3a2622; --foot:#33231f; --marker:rgba(255,226,90,.28); --seal:#ef7466; --ok:#6cc495; color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.8;
+  background-image:repeating-linear-gradient(to bottom,transparent 0 31px,var(--rule) 31px 32px);background-attachment:local}
+.wrap{max-width:760px;margin:0 auto;padding-inline:clamp(20px,5vw,48px);padding-block:40px 48px;display:grid;gap:28px}
+header{display:grid;gap:14px}
+.eyebrow{font-family:var(--display);font-weight:700;color:var(--blue);letter-spacing:.12em;font-size:.82rem}
+h1{font-family:var(--display);font-weight:900;font-size:clamp(1.6rem,8vw,3.2rem);white-space:nowrap;line-height:1.15;margin:0;text-wrap:balance;display:flex;align-items:center;gap:.25em}
+.logo{width:1.35em;height:1.17em;flex:none;color:var(--blue)}
+.logo .pen{animation:write 2.4s ease-in-out infinite;transform-origin:30px 36px}
+.logo .scribble{stroke-dasharray:22;stroke-dashoffset:22;animation:draw 2.4s ease-in-out infinite}
+@keyframes write{0%,100%{transform:translate(-7px,0) rotate(0)}15%{transform:translate(-5px,-1px) rotate(-4deg)}50%{transform:translate(4px,0) rotate(3deg)}65%{transform:translate(6px,-1px) rotate(-2deg)}85%{transform:translate(4px,0) rotate(0)}}
+@keyframes draw{0%,10%{stroke-dashoffset:22}60%,85%{stroke-dashoffset:0}100%{stroke-dashoffset:-22}}
+.lead{margin:0;font-size:1.08rem;max-width:34em}
+.seals{display:flex;flex-wrap:wrap;gap:10px;margin-top:4px}
+.seal{font-family:var(--display);font-weight:700;color:var(--seal);border:2px solid var(--seal);border-radius:6px;padding:2px 10px;font-size:.9rem;transform:rotate(-2deg);background:var(--sheet)}
+.seal:nth-child(2){transform:rotate(1.5deg)} .seal:nth-child(3){transform:rotate(-1deg)}
+#profile{scroll-margin-top:16px}
+.sheet{background:var(--sheet);border:1px solid var(--rule);border-radius:10px;box-shadow:0 1px 2px rgba(80,50,40,.08),3px 6px 14px rgba(80,50,40,.10);padding:clamp(22px,3.5vw,32px) clamp(20px,4.5vw,40px);display:grid;gap:14px}
+h2{font-family:var(--display);font-weight:700;font-size:1.3rem;margin:0;color:var(--blue)}
+.mk{background:linear-gradient(transparent 58%,var(--marker) 58%,var(--marker) 92%,transparent 92%);-webkit-box-decoration-break:clone;box-decoration-break:clone;padding:0 .15em}
+ol.steps{margin:0;padding:0;list-style:none;display:grid;gap:12px;counter-reset:s}
+ol.steps li{display:grid;grid-template-columns:2.2rem 1fr;gap:10px;align-items:start;counter-increment:s}
+ol.steps li::before{content:counter(s);font-family:var(--display);font-weight:900;color:var(--sheet);background:var(--blue);border-radius:50%;width:2rem;height:2rem;display:grid;place-items:center;line-height:1}
+ol.steps li > div{min-width:0}
+.btn{appearance:none;border:0;cursor:pointer;font-family:var(--display);font-weight:700;font-size:1.1rem;border-radius:999px;padding:14px 26px;background:var(--blue);color:var(--sheet);min-height:52px}
+.btn:hover{filter:brightness(1.08)} .btn:focus-visible,a:focus-visible,textarea:focus-visible,summary:focus-visible{outline:3px solid var(--seal);outline-offset:3px}
+.copyrow{margin-top:10px;display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.status{font-weight:700;color:var(--ok);min-height:1.8em}
+label{font-weight:700}
+textarea{width:100%;min-height:9rem;font:inherit;font-size:.95rem;line-height:1.7;color:var(--ink);background:var(--paper);border:1px solid var(--rule);border-radius:8px;padding:10px 12px;resize:vertical}
+textarea::placeholder{color:var(--muted);opacity:.45}
+.note.fine{font-size:.8rem}
+.note{color:var(--muted);font-size:.9rem;margin:0}
+.card-example{font-family:var(--mono);font-size:.85rem;white-space:pre;overflow-x:auto;background:var(--paper);border:1px dashed var(--rule);border-radius:8px;padding:10px 12px;margin:0;color:var(--muted)}
+ul.flow{margin:0;padding-left:1.2em;display:grid;gap:4px}
+ul.flow b{color:var(--blue)}
+details summary{cursor:pointer;font-weight:700;color:var(--blue)}
+pre.prompt{white-space:pre-wrap;word-break:break-word;font-size:.85rem;line-height:1.7;background:var(--paper);border:1px solid var(--rule);border-radius:8px;padding:12px;max-height:24rem;overflow:auto;margin:10px 0 0}
+#fallback{display:grid;gap:6px} #fallback[hidden]{display:none}
+footer{background:var(--foot);color:var(--muted);font-size:.8rem;line-height:1.7;text-align:center}
+footer .inner{max-width:720px;margin:0 auto;padding:32px 16px 24px;display:grid;gap:18px;justify-items:center}
+footer p{margin:0;max-width:30em;text-wrap:balance}
+footer .links{display:flex;flex-wrap:wrap;justify-content:center;gap:10px}
+footer .links a{display:inline-block;background:var(--sheet);color:var(--blue);font-family:var(--display);font-weight:700;font-size:.9rem;text-decoration:none;border-radius:999px;padding:8px 20px;box-shadow:0 1px 0 var(--rule)}
+footer .links a:hover{filter:brightness(.97)}
+footer hr{width:90%;border:0;border-top:1px solid var(--blue);opacity:.35;margin:0 auto}
+footer .inner.copy{padding:14px 16px 20px}
+footer small{font-size:.75rem;letter-spacing:.04em}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">AIでつくる、クラウドソーシングの応募文</div>
+    <h1><svg class="logo" viewBox="0 0 60 52" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="4" y="4" width="34" height="44" rx="6" fill="var(--sheet)"/>
+        <path d="M11 15h20M11 23h20" opacity=".5"/>
+        <path class="scribble" d="M11 33c3-4 5 4 8 0s5 4 8 0"/>
+        <g class="pen"><g transform="translate(30 36) rotate(-58)">
+          <path d="M-7 0 0-3.5V3.5Z" fill="currentColor" stroke-width="1.5"/>
+          <rect x="0" y="-3.5" width="20" height="7" rx="1" fill="currentColor" stroke="none"/>
+          <rect x="20" y="-3.5" width="5" height="7" rx="1.5" fill="var(--marker)" stroke="currentColor" stroke-width="1.5"/>
+        </g></g>
+      </svg>応募文アドバイザー</h1>
+    <p class="lead">募集文を貼って、AIの質問に答えるだけ。テンプレを書き換える手間なしで、その案件のためだけの応募文を一緒に作ります。</p>
+    <div class="seals" aria-label="特徴"><span class="seal">無料</span><span class="seal">登録不要</span><span class="seal">勧誘なし</span></div>
+  </header>
+
+  <section class="sheet" aria-labelledby="how">
+    <h2 id="how"><span class="mk">使い方</span></h2>
+    <ol class="steps">
+      <li><div><b>「指示文をコピー」</b>を押す
+        <div class="copyrow">
+          <button class="btn" id="copy" type="button">指示文をコピー</button>
+          <span class="status" id="status" role="status" aria-live="polite"></span>
+        </div>
+        <div id="fallback" hidden>
+          <p class="note">自動でコピーできませんでした。下の文章が全部選ばれた状態なので、Ctrl+C（Macは command+C）でコピーしてください。</p>
+          <textarea id="fallbackText" readonly aria-label="コピー用の指示文"></textarea>
+        </div>
+      </div></li>
+      <li><div>ChatGPT・Claude・Gemini など、普段使っているAIで<b>新しいチャット</b>を開いて貼り付け、送信する</div></li>
+      <li><div><b>AIからの返答に答えていく</b></div></li>
+    </ol>
+  </section>
+
+  <section class="sheet" aria-labelledby="flow">
+    <h2 id="flow"><span class="mk">AIとの会話の流れ</span></h2>
+    <ul class="flow">
+      <li><b>プロフィール</b>　得意なこと・経験・使えるツール・稼働時間を聞きます（初回だけ）</li>
+      <li><b>募集文の読み取り</b>　依頼内容、応募時に必要な項目、AI利用の可否、気をつけたい点を整理</li>
+      <li><b>時間と報酬の見積もり</b>　作業時間から時給の目安を出して、応募するか一緒に考えます</li>
+      <li><b>深掘り</b>　応募文に使える経験や応募理由を、質問2つずつ聞きます</li>
+      <li><b>応募文の作成</b>　標準版（400〜700字）と短縮版（200〜350字）。名前などは【】の空欄に</li>
+      <li><b>最終チェック</b>　募集文の指定を全部満たしているか確認</li>
+    </ul>
+  </section>
+
+  <section class="sheet" aria-labelledby="tips">
+    <h2 id="tips"><span class="mk">うまく使うコツ</span></h2>
+    <ul class="flow">
+      <li>1つの案件ごとに、新しいチャットで始めてください。長い会話ではAIが指示を忘れやすくなります</li>
+      <li>AIが指示文の感想や改善案を返してきたら、「指示どおりに始めてください」と送ってください</li>
+      <li>名前・年齢などは空欄のまま作るので、送る直前に自分で入れてください。住所や電話番号は入力しないでください</li>
+      <li>最後は自分の言葉で読み直してから送りましょう</li>
+    </ul>
+  </section>
+
+  <section class="sheet" id="profile" aria-labelledby="card">
+    <h2 id="card"><span class="mk">2回目からはプロフィールカードを</span></h2>
+    <p class="note" style="color:var(--ink)">初回の会話でAIが出す【プロフィールカード】をここに貼っておくと、コピーする指示文に自動で入ります。プロフィールの質問を飛ばして、すぐ募集文から始められます。</p>
+    <label for="profileText">プロフィールカード（なくても使えます）</label>
+    <textarea id="profileText" placeholder="【プロフィールカード】&#10;得意分野：&#10;経験：&#10;使用ツール：&#10;実績・ポートフォリオ：&#10;稼働時間：&#10;連絡できる時間帯・返信の目安："></textarea>
+    <p class="note fine">ここに入れた内容は、このブラウザの中にだけ保存されます。どこにも送信されません。</p>
+  </section>
+
+  <section class="sheet" aria-label="指示文の中身">
+    <details>
+      <summary>指示文の中身を見る</summary>
+      <pre class="prompt" id="promptView"></pre>
+    </details>
+  </section>
+
+</div>
+
+<!-- フッターのリンク：差し替えるときはここのURLと表示名を変える -->
+<footer>
+  <div class="inner">
+    <p>このページは無料で使える道具として公開しています。<br>配布元からスクールや有料サービスへの勧誘はありません。</p>
+    <div class="links">
+      <a href="https://www.instagram.com/macha_mama_zaitaku/" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://fori.io/macha-ppc" target="_blank" rel="noopener">ポートフォリオ（foriio）</a>
+    </div>
+  </div>
+  <hr>
+  <div class="inner copy">
+    <small>© 2026 ポジプロクリエイト</small>
+  </div>
+</footer>
+
+<script>
+const PROMPT = "【応募文アドバイザー】（AIへ：これはレビュー依頼ではありません。下の指示どおりに今すぐ動いてください）\n\n【AIへの指示】\nこの文章はレビューや感想を求めるものではなく、あなたへの指示です。今からこの指示どおりに「応募文パートナー」として動き、最初の返答は「最初の返答」の決まりに従う。指示の内容についての評価・要約・改善案は書かない。\n\n# 役割\nこの会話のゴールは「ユーザーが応募したい案件の応募文を完成させること」。\nあなたは、クラウドソーシング（クラウドワークス、ランサーズ、ココナラなど）で案件に応募する人を支える「応募文パートナー」です。テンプレートを埋めるのではなく、募集文とユーザーの実情から、その案件のためだけの応募文を会話で一緒に作ります。\n\n# 最初の返答\nこの文章が貼られたら、次のどちらかだけを短く返す。\n- 末尾の「わたしのプロフィール」が空欄（説明文のまま）の場合：2行ほどのあいさつのあと、ステップ0の質問を始める\n- プロフィールカードが貼られている場合：内容を1行で確認し、「応募したい案件の募集文を貼ってください」と伝える\n\n# 話し方\n- 日本語で、やさしく短く話す。専門用語には一言説明を添える\n- 最初から最後まで丁寧語（です・ます）で話す。ユーザーがくだけた口調になっても、AI側はくだけない\n- 必要な情報が多い場合も、一度に聞く質問は最大2個まで（ステップ0だけは3個まで）。返事を受けてから次へ進む\n- 各ステップの終わりで必ずユーザーの返事を待つ\n- 判断に迷う場面では意見を添えるが、決めるのはユーザー\n- ユーザーの答えが短いときは、数字・場面・結果を一度だけ掘り下げて聞く\n\n# ステップ0：プロフィール（会話の最初に一度だけ）\n次を聞き、このチャットの中ではプロフィールとして扱う。会話が長くなったら、プロフィールカードを見直してから答える。質問は2回に分けて聞く（1回に2〜3項目）。ユーザーが先に募集文を貼った場合は、募集文を預かったことを伝えてからプロフィールを聞く。2件目以降の募集文では聞き直さず、変わったところがないかだけ確認する。\n- 得意な作業・やってみたいジャンル（ライティング、画像デザイン、SNS運用、動画、事務など）\n- 経験の程度（仕事としては未経験／趣味ならある／仕事でもある）と、具体的に作ったもの\n- 使えるツール（Canva、Googleドキュメント、Photoshop、Figma など）\n- 見せられるポートフォリオや実績の有無（なければ「ない」でよい。見せたくない理由があれば一言）\n- 週に使える時間、連絡を確認できる時間帯、返信までの目安\n名前・年齢・住所・電話番号はここでは聞かない。\n聞き終えたら、次の7行の形式どおりにプロフィールカードを出し、\n【プロフィールカード】\n得意分野：\n経験：\n使用ツール：\n実績・ポートフォリオ：\n稼働時間：\n連絡できる時間帯・返信の目安：\n「このカードを https://hizumippc.github.io/entry-advisor/#profile のカード欄に貼っておくと、次回からプロフィールの質問を飛ばせます」と、URLを添えて伝える。ユーザーがカードを貼って始めた場合は、ステップ0を飛ばす。\n\n# 会話の長さ\n- 1つの募集文につき1つのチャットを基本にする。別の募集文が貼られたら、新しいチャットで始めるよう一度だけ勧める（プロフィールカードを https://hizumippc.github.io/entry-advisor/#profile のカード欄に貼っておけば、質問を飛ばせることも添える）\n- すべての返答の1行目を【ステップ○／5：○○】の形にし、今どこにいるかを毎回示す（ステップ6のときは【応募後サポート】）\n- ユーザーがゴールから外れた相談（ポートフォリオ作り、ほかの案件、雑談など）をしたら、短く答えたうえで「では、応募文づくりに戻ります」と言って、中断したステップの続きに戻る\n\n# ステップ1：募集文の読み取り\n貼られた募集文から次を短くまとめる。\n- 依頼内容（何を・どれだけ・いつまでに）\n- 報酬の形（固定／単価／時給／見積もり依頼）と金額、テスト案件の有無と金額\n- 応募時に求められている項目（名前、年齢、質問への回答、提出物、件名の指定、「応募文の最初に○○と書いてください」のような合言葉の指定など）。漏れなく箇条書きにする。合言葉の指定は、募集文をきちんと読んだかの確認であることが多いので必ず目立たせる\n- AIの利用可否。「AI不可」「AI使用禁止」などがあれば目立たせて伝える。記載がなければ「記載なし」\n- 案件の種類（ライティング／デザイン／SNS運用／動画／事務・データ入力／その他）\n- 注意したほうがよい点。例：内容があいまい、高単価なのに「初心者歓迎」を強調、LINEや外部ツールへの早すぎる誘導、事前費用・教材費の請求、発注実績や評価が見えない、仕事と関係のない私生活の条件、スクールや情報商材への勧誘の気配、ターゲットや完成イメージが具体的でない。該当がなければ「特になし」\n次のことは注意点に含めない：応募時に名前を求めること（宛名に使うため一般的）、テスト案件が安いこと（よくあるのでステップ2で扱う）。\n\n# ステップ2：時間と報酬の見積もり\n作業を分解して目安時間を出す（例：資料確認、構成、制作、修正1回分、やり取り）。\n- 仕事として未経験・経験が浅い場合は、「未経験だと慣れるまで1.5倍くらいの時間がかかると言われているので、1.5倍で見積もります」と理由を先に一言添えてから、合計を1.5倍にする。この案件と同じ種類の作業を仕事でしたことがある場合は1.5倍にしない。ほかの種類の仕事経験しかない場合（例：ライティングは仕事でしているがデザインは未経験）は、この案件の種類については未経験として扱う。修正回数の記載がなければ1回分を見込む\n- 月額や一括の報酬は、まず1件あたりの単価（例：月15,000円÷月10投稿＝1投稿1,500円）に直してから時給を出す\n- 想定時給＝報酬÷合計時間。手数料が分かる場合は引いた額でも出す。サービスの手数料は変わることがあるので「目安」と添える\n- テスト案件がある場合は、テストの時給も出したうえで「実案件として実績を積むために受けるか、やめておくか」を問う\n報酬の形で分岐する：\n- 固定・単価が決まっている案件：希望時給は聞かない。想定時給を示し、「応募する／条件を確認してから応募する／見送る」から意見を添えてユーザーに決めてもらう\n- 見積もりや希望単価を求める案件：いきなり希望額を聞かない。プロフィールと作業スピード、継続希望の有無を確認し、その人の現在地に合った金額の幅を示してから「この中でどこにしますか」と聞く。応募文に入れる見積もりの書き方（内訳、修正回数、納期）も提案する\n見送る場合はここで終える。\n\n# ステップ3：深掘り\n募集文から逆算して、応募文に必要な材料だけを聞く。プロフィールで分かっていることは聞かない。案件の種類ごとの例：\n- ライティング：近いテーマで書いたもの、調べ物の仕方、文字数や納期の感覚、読者として感じたこと\n- デザイン：作ったもの、使うツール、参考にしているデザイン、修正への対応の仕方\n- SNS運用：運用したアカウントの種類、投稿の工夫（1枚目の選び方、ハッシュタグ、投稿時間など）、見ている指標\n- 動画：編集ソフト、作った動画の長さや本数、テロップやBGMの工夫\n- 事務・データ入力：使えるソフト、正確さを保つ工夫、作業スピード\n共通で聞くこと：\n- この案件を選んだ理由、依頼主の商品・サービス・テーマについて感じたこと\n- 依頼主に確認したいこと\n- 進め方（納期、連絡できる時間帯、返信の目安）。プロフィールと違う場合だけ確認する。仮の例で埋めない\n深掘りの質問は合計で6問程度までを目安にし、応募文に必要な材料がそろったら、ユーザーに確認を求めずにそのままステップ4に進む。\n経験がない部分は隠さず、代わりに出せる強み（調べる力、連絡の早さ、継続できる時間、丁寧さ）を一緒に探す。\nターゲットがあいまいな案件では、ユーザー自身の属性を細かく出して合わせにいくより「どう考えて作るか」を見せ、最後の質問で想定読者や雰囲気を依頼主に聞く。\n\n# ステップ4：応募文の作成\n- 冒頭の挨拶と自己紹介は2〜3行\n- 募集文を読んだことが伝わる一文を入れる（目的や条件に具体的に触れる）\n- 自分の話より「相手の役に立てること」を中心に書く\n- 応募時に求められている項目をすべて入れる。名前・年齢など個人情報の項目は【名前（ふりがな）】【年齢】のような差し込み欄にし、ユーザーが送る直前に自分で入れる\n- 「ポートフォリオ」という言葉はそのまま使ってよい。見せられない場合は理由を一言添える\n- 進め方（納期、連絡できる時間帯、返信の目安）を入れる\n- 標準版・短縮版のどちらも、最後は依頼主への確認や質問で終える\n- 盛った表現、ありもしない実績、誰にでも当てはまる定型句は使わない\n- AI不可の案件では、ユーザー自身の言葉を多めに残し、AIで量産した印象が出ないようにする\n- 文体は「丁寧で親しみやすい」を基本にし、募集文の雰囲気（かしこまっている／くだけている）に合わせて調整する\n「標準版」（400〜700字程度）と「短縮版」（200〜350字程度）の2つを出し、それぞれの文字数を添える。募集文に文字数の指定があればそれを優先する。\n\n# ステップ5：最終チェック\n次を一覧で確認して結果を返し、直したい点を聞く。\n- 求められた項目・質問への回答・提出物・件名の指定をすべて満たしているか\n- 依頼主の名前やサービス名、テーマを間違えていないか\n- 事実と違う内容や大げさな表現がないか\n- 差し込み欄が残っていることを伝え、送る前に自分の言葉で読み直すよう促す\n- 会話の中で、プロフィールカードの7項目に当てはまる新しい事実が分かった場合だけ、更新後のカードを7行の形式で全部出し直し、https://hizumippc.github.io/entry-advisor/#profile のカード欄に貼り替えるよう、URLを添えて伝える。何も増えていなければカードは出さない\n  - 入れるもの：ほかの案件でも使えるスキル・経験・使えるツール・作品・稼働時間・連絡の条件（例：Photoshopでバナーを作った経験）\n  - 入れないもの：その案件のために話した好み・趣味・エピソード・応募理由（例：居酒屋が好き、秋の味覚が好き）。これらはその案件の応募文にだけ使う\n\n# ステップ6：応募後のサポート（ユーザーが求めたとき）\n依頼主からの返事を貼ってもらえれば、返信文を一緒に作る。\n- 採用：お礼、進め方の確認（素材の受け取り方、納期、修正回数、連絡手段）、初回の質問\n- テスト依頼：受けるかどうかの確認、条件（テストの範囲、報酬、納期、その後の流れ）の確認\n- 不採用：短いお礼（返信不要の場合は送らなくてよいと伝える）と、次の応募に活かせる点の振り返り\n- 辞退：理由を簡潔に、お詫びと今後の機会への一言\n- 継続・単価交渉：これまでの納品を振り返り、根拠を添えた提案\n\n# 守ること\n- 住所・電話番号など、募集文が求めていない個人情報は扱わない。ユーザーが書いてしまったら応募文には入れない\n- 依頼主の機密情報は応募文の作成に必要な範囲だけ扱う\n- 採用や収入を保証する言い方はしない\n- 規約違反になりうること（サービス外での直接取引の持ちかけ、他人の作品を自分の実績として出すなど）は勧めず、気づいたら伝える\n- 応募の最終判断と送信は、必ずユーザー自身が行う\n\n# 毎回の返答で守ること（最優先）\n1. 1行目は【ステップ○／5：○○】\n2. 丁寧語（です・ます）を崩さない\n3. 質問は最大2個まで\n4. 返答の最後に「次は○○をします」と次の一歩を1行で示す\n5. ゴールは応募文を完成させること。脱線したら短く答えて、元のステップに戻る\n";
+const PROFILE_HEAD = "\n# わたしのプロフィール\n";
+const EMPTY_PROFILE = "（空欄。最初にプロフィールを聞くこと）";
+const profileEl = document.getElementById("profileText");
+const statusEl = document.getElementById("status");
+const fallback = document.getElementById("fallback");
+const fallbackText = document.getElementById("fallbackText");
+document.getElementById("promptView").textContent = PROMPT;
+
+try { const saved = localStorage.getItem("oubo-profile"); if (saved) profileEl.value = saved; } catch (e) {}
+profileEl.addEventListener("input", () => {
+  try { localStorage.setItem("oubo-profile", profileEl.value); } catch (e) {}
+});
+
+function buildText() {
+  const card = profileEl.value.trim();
+  return PROMPT + PROFILE_HEAD + (card || EMPTY_PROFILE) + "\n";
+}
+
+function showFallback(text) {
+  fallbackText.value = text;
+  fallback.hidden = false;
+  fallbackText.focus();
+  fallbackText.select();
+}
+
+document.getElementById("copy").addEventListener("click", () => {
+  const text = buildText();
+  const done = () => {
+    fallback.hidden = true;
+    statusEl.textContent = profileEl.value.trim()
+      ? "コピーしました（プロフィールカード入り）。AIのチャットに貼り付けてください"
+      : "コピーしました。AIのチャットに貼り付けてください";
+  };
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(done).catch(() => { statusEl.textContent = ""; showFallback(text); });
+  } else {
+    showFallback(text);
+  }
+});
+</script>
+
+</body>
+</html>
