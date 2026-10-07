@@ -4,6 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>応募文アドバイザー</title>
+<!-- Google アナリティクス（アクセス数・流入元・コピーボタンのクリック数） -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FXW6GC9546"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-FXW6GC9546');
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap">
@@ -152,7 +160,7 @@ footer small{font-size:.75rem;letter-spacing:.04em}
 <!-- フッターのリンク：差し替えるときはここのURLと表示名を変える -->
 <footer>
   <div class="inner">
-    <p>このページは無料で使える道具として公開しています。<br>配布元からスクールや有料サービスへの勧誘はありません。</p>
+    <p>このページは無料で使える道具として公開しています。<br>配布元からスクールや有料サービスへの勧誘はありません。<br>アクセス数を知るためにGoogleアナリティクスを使っています。カード欄の内容は送信されません。</p>
     <div class="links">
       <a href="https://www.instagram.com/macha_mama_zaitaku/" target="_blank" rel="noopener">Instagram</a>
       <a href="https://fori.io/macha-ppc" target="_blank" rel="noopener">ポートフォリオ（foriio）</a>
@@ -195,6 +203,7 @@ document.getElementById("copy").addEventListener("click", () => {
   const text = buildText();
   const done = () => {
     fallback.hidden = true;
+    if (typeof gtag === "function") gtag("event", "copy_prompt", { with_profile: !!profileEl.value.trim() });
     statusEl.textContent = profileEl.value.trim()
       ? "コピーしました（プロフィールカード入り）。AIのチャットに貼り付けてください"
       : "コピーしました。AIのチャットに貼り付けてください";
