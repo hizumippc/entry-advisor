@@ -70,13 +70,16 @@ details summary{cursor:pointer;font-weight:700;color:var(--blue)}
 pre.prompt{white-space:pre-wrap;word-break:break-word;font-size:.85rem;line-height:1.7;background:var(--paper);border:1px solid var(--rule);border-radius:8px;padding:12px;max-height:24rem;overflow:auto;margin:10px 0 0}
 #fallback{display:grid;gap:6px} #fallback[hidden]{display:none}
 footer{background:var(--foot);color:var(--muted);font-size:.8rem;line-height:1.7;text-align:center}
-footer .inner{max-width:720px;margin:0 auto;padding:32px 16px 24px;display:grid;gap:18px;justify-items:center}
-footer p{margin:0;max-width:30em;text-wrap:balance}
+footer .inner{max-width:720px;margin:0 auto;padding:32px 16px;display:grid;gap:28px;justify-items:center}
+footer p{margin:0;text-wrap:balance;font-size:clamp(.66rem,3.1vw,.8rem)}
 footer .links{display:flex;flex-wrap:wrap;justify-content:center;gap:10px}
 footer .links a{display:inline-block;background:var(--sheet);color:var(--blue);font-family:var(--display);font-weight:700;font-size:.9rem;text-decoration:none;border-radius:999px;padding:8px 20px;box-shadow:0 1px 0 var(--rule)}
 footer .links a:hover{filter:brightness(.97)}
 footer hr{width:90%;border:0;border-top:1px solid var(--blue);opacity:.35;margin:0 auto}
-footer .inner.copy{padding:14px 16px 20px}
+footer .inner.copy{padding:24px 16px 28px}
+footer .share,footer .follow{display:grid;gap:8px;justify-items:center}
+footer .share-title{font-family:var(--display);font-weight:700;color:var(--ink);font-size:.9rem}
+footer .share .links a,footer .share .links button{appearance:none;border:0;cursor:pointer;display:inline-block;background:var(--blue);color:var(--sheet);font-family:var(--display);font-weight:700;font-size:.9rem;text-decoration:none;border-radius:999px;padding:8px 20px}
 footer small{font-size:.75rem;letter-spacing:.04em}
 @media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
 </style>
@@ -160,10 +163,21 @@ footer small{font-size:.75rem;letter-spacing:.04em}
 <!-- フッターのリンク：差し替えるときはここのURLと表示名を変える -->
 <footer>
   <div class="inner">
-    <p>このページは無料で使える道具として公開しています。<br>配布元からスクールや有料サービスへの勧誘はありません。<br>アクセス数を知るためにGoogleアナリティクスを使っています。カード欄の内容は送信されません。</p>
-    <div class="links">
+    <p>このページは無料で使えるツールとして公開しています。<br>配布元からスクールや有料サービスへの勧誘はありません。<br>アクセス数解析のためGoogleアナリティクスを使用しています。<br>カード欄の内容は送信されません。</p>
+    <div class="share">
+      <p class="share-title">いいなと思ったらシェア</p>
+      <div class="links">
+        <a id="shareX" href="https://twitter.com/intent/tweet?text=%E5%8B%9F%E9%9B%86%E6%96%87%E3%82%92%E8%B2%BC%E3%81%A3%E3%81%A6AI%E3%81%AE%E8%B3%AA%E5%95%8F%E3%81%AB%E7%AD%94%E3%81%88%E3%82%8B%E3%81%A0%E3%81%91%E3%81%A7%E3%80%81%E3%81%9D%E3%81%AE%E6%A1%88%E4%BB%B6%E3%81%AE%E3%81%9F%E3%82%81%E3%81%AE%E5%BF%9C%E5%8B%9F%E6%96%87%E3%82%92%E4%B8%80%E7%B7%92%E3%81%AB%E4%BD%9C%E3%82%8C%E3%82%8B%E3%83%84%E3%83%BC%E3%83%AB%E3%80%82%E7%84%A1%E6%96%99%E3%83%BB%E7%99%BB%E9%8C%B2%E3%81%AA%E3%81%97%E3%83%BB%E5%8B%A7%E8%AA%98%E3%81%AA%E3%81%97%E3%81%A7%E4%BD%BF%E3%81%88%E3%81%BE%E3%81%99&amp;url=https%3A%2F%2Fhizumippc.github.io%2Fentry-advisor%2F%3Futm_source%3Dx_share" target="_blank" rel="noopener">Xでシェア</a>
+        <a id="shareLine" href="https://social-plugins.line.me/lineit/share?url=https%3A%2F%2Fhizumippc.github.io%2Fentry-advisor%2F%3Futm_source%3Dline_share" target="_blank" rel="noopener">LINEで送る</a>
+        <button id="shareCopy" type="button">リンクをコピー</button>
+      </div>
+    </div>
+    <div class="follow">
+      <p class="share-title">Follow me</p>
+      <div class="links">
       <a href="https://www.instagram.com/macha_mama_zaitaku/" target="_blank" rel="noopener">Instagram</a>
       <a href="https://fori.io/macha-ppc" target="_blank" rel="noopener">ポートフォリオ（foriio）</a>
+      </div>
     </div>
   </div>
   <hr>
@@ -213,6 +227,20 @@ document.getElementById("copy").addEventListener("click", () => {
   } else {
     showFallback(text);
   }
+});
+
+// シェアボタン（どれが押されたかをアナリティクスに送る。アナリティクスが無いページでは何もしない）
+const SHARE_URL = "https://hizumippc.github.io/entry-advisor/?utm_source=link_share";
+function track(method) { if (typeof gtag === "function") gtag("event", "share", { method }); }
+document.getElementById("shareX").addEventListener("click", () => track("x"));
+document.getElementById("shareLine").addEventListener("click", () => track("line"));
+document.getElementById("shareCopy").addEventListener("click", () => {
+  track("copy_link");
+  const btn = document.getElementById("shareCopy");
+  const ok = () => { btn.textContent = "コピーしました"; setTimeout(() => { btn.textContent = "リンクをコピー"; }, 2000); };
+  const ng = () => { window.prompt("このURLをコピーしてください", SHARE_URL); };
+  if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(SHARE_URL).then(ok).catch(ng);
+  else ng();
 });
 </script>
 
